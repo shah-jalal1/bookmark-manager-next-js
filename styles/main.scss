@@ -1,0 +1,16 @@
+.category-wrapper {
+
+  .category-card {
+    border: 1px solid black;
+    width: 330px;
+    padding: 10px;
+    margin-bottom: 10px;
+
+    .card-item {
+      display: flex !important;
+      justify-content: space-between;
+      width: 100%;
+    }
+  }
+
+}
