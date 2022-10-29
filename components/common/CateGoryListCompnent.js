@@ -1,10 +1,21 @@
 import React, {useState} from 'react';
 import {Button, Col, Row} from "antd";
 
-const CateGoryListCompnent = ({categoryList}) => {
+const CateGoryListCompnent = ({ categoryData}) => {
+// const CateGoryListCompnent = ({categoryList}) => {
+
+    // const [categoryData] = useState(typeof window !== 'undefined' &&
+    // localStorage.getItem("bookmarks-data") !== null ?
+    //     JSON.parse(localStorage.getItem(('bookmarks-data'))) :
+    //     categoryList);
+    // const categoryData = typeof window !== 'undefined' &&
+    // localStorage.getItem("bookmarks-data") !== null ?
+    //     JSON.parse(localStorage.getItem(('bookmarks-data'))) :
+    //     categoryList;
+
     const [detailsData, setDetailsData] = useState();
 
-    console.log('cateogry list ', categoryList);
+    // console.log('cateogry list ', categoryList);
 
     const handleDetails = (data) => {
         console.log('data', data)
@@ -16,7 +27,7 @@ const CateGoryListCompnent = ({categoryList}) => {
             <Row>
                 <Col md={12}>
                     {
-                        categoryList?.map(data =>
+                        categoryData?.map(data =>
                             <div key={Math.random()}>
                                 <h3>{data?.categoryListName}</h3>
                                 <div className='category-card'>

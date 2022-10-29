@@ -37,8 +37,12 @@ const categoryList = [
 
 const HomePage = () => {
 
-    // const [bookmarksData, setBookmarkDate] = useState(categoryList);
-    let bookmarksData = categoryList;
+    // const [bookmarksData, setBookmarkDate] = useState(typeof window !== 'undefined' &&
+    // localStorage.getItem("bookmarks-data") !== null ?
+    //     JSON.parse(localStorage.getItem(('bookmarks-data'))) :
+    //     categoryList);
+    // let bookmarksData = categoryList;
+
 
     const [isInitData, setIsInitData] = useState(true);
 
@@ -50,18 +54,20 @@ const HomePage = () => {
 
     // useEffect(() => {
     //     if ( localStorage.getItem("bookmarks-data") !== null) {
-    //         console.log('this is use effect')
-    //         bookmarksData =  localStorage.getItem("bookmarks-data");
+    //         const test =  JSON.parse(localStorage.getItem(('bookmarks-data')));
+    //         console.log('test', test)
+    //         // console.log('this is use effect', localStorage.getItem("bookmarks-data"));
+    //         // bookmarksData =  localStorage.getItem("bookmarks-data");
     //     } else {
-    //         console.log('this is not use effect')
+    //         // console.log('this is not use effect')
     //     }
     // }, []);
 
     // if (typeof window !== 'undefined') {
-    //     console.log('bookmark data',  localStorage.getItem("bookmarks-data"))
+    //     console.log('!!!!!!!!!!sbookmark data',  localStorage.getItem("bookmarks-data"))
     // }
-
-    console.log('####', bookmarksData)
+    //
+    // console.log('####', bookmarksData)
 
 
     const getAllBookmarks = () => {
@@ -85,37 +91,46 @@ const HomePage = () => {
         setIsModalOpen(false);
     };
 
+    // console.log('@@@bookmarkdat', bookmarksData)
+
     const onFinish = async values => {
+        let _tempData;
         if (localStorage.getItem("bookmarks-data") === null) {
             console.log('null');
+            _tempData = categoryList;
         } else {
             console.log('not null');
-            bookmarksData = JSON.parse(localStorage.getItem(('bookmarks-data')))
+            // bookmarksData = JSON.parse(localStorage.getItem(('bookmarks-data')))
+            _tempData = JSON.parse(localStorage.getItem(('bookmarks-data')))
         }
+        console.log('temp data ', _tempData)
 
         // localStorage.removeItem("bookmarks-data");
 
         // bookmarksData = JSON.parse(localStorage.getItem(('bookmarks-data')))
 
         //
-          let _data;
+        let _data;
 
-          _data = bookmarksData?.map(catData => {
-              if (catData?.categoryListName === values?.categoryListName) {
-                  catData?.category?.push(values);
-              }
-              return catData;
-          });
+        // _data = bookmarksData?.map(catData => {
+        _data = _tempData?.map(catData => {
+            if (catData?.categoryListName === values?.categoryListName) {
+                catData?.category?.push(values);
+            }
+            return catData;
+        });
 
-        console.log('bookmarks data.....', _data)
+        // setBookmarkDate(_data);
+
+        // console.log('bookmarks data.....', _data)
 
         // JSON.parse(localStorage.getItem('bookmarks-data'));
         //
-          localStorage.setItem('bookmarks-data', JSON.stringify(_data));
+        localStorage.setItem('bookmarks-data', JSON.stringify(_data));
         //
         //   form.resetFields();
         //
-          alert("Successfully added into favourite");
+        alert("Successfully added into favourite");
         //
         //   getAllBookmarks();
         //
@@ -123,7 +138,12 @@ const HomePage = () => {
         //   setIsInitData(false);
     }
 
-
+    // if (typeof window === 'undefined') {
+    //     console.log('////if')
+    //     return <></>;
+    // } else {
+    //     console.log('else....')
+    // }
 
 
     return (
@@ -133,18 +153,31 @@ const HomePage = () => {
                 <Button type='primary' onClick={showModal}>Add Bookmark</Button>
             </div>
 
-            <div>
-                {/*{*/}
+            {/*    if (typeof window === 'undefined') {*/}
+            {/*    return <></>;*/}
+            {/*}*/}
 
-                {/*    <CateGoryListCompnent*/}
-                {/*        categoryList={*/}
-                {/*            typeof window !== 'undefined' &&*/}
-                {/*            localStorage.getItem("bookmarks-data") !== null ?*/}
-                {/*                localStorage.getItem("bookmarks-data") :*/}
-                {/*                categoryList*/}
-                {/*    }*/}
-                {/*    />*/}
-                {/*}*/}
+            <div>
+                {
+                    typeof window !== 'undefined' ?
+
+                        <CateGoryListCompnent
+                            // categoryList={categoryList}
+
+                            categoryData={
+
+                                // typeof window !== 'undefined' &&
+                                // typeof window !== 'undefined' ?
+                                localStorage.getItem("bookmarks-data") !== null ?
+                                    JSON.parse(localStorage.getItem(('bookmarks-data'))) :
+                                    categoryList
+                                // :
+                                // <></>
+                            }
+                        />
+                        :
+                        <></>
+                }
 
             </div>
 
@@ -173,7 +206,7 @@ const HomePage = () => {
                                 // label="Title"
                                 name="title"
                                 rules={[{required: true, message: 'Please input title'},
-                                    { max: 30, message: 'Username must be minimum 30 characters.' }
+                                    {max: 30, message: 'Username must be minimum 30 characters.'}
                                 ]}
                             >
                                 <Input placeholder='title'/>
@@ -191,7 +224,7 @@ const HomePage = () => {
                         </Col>
 
 
-                        <Col md={24} >
+                        <Col md={24}>
                             <div style={{display: 'flex', width: '100%'}}>
                                 <Form.Item
                                     name="categoryListName"
