@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {Button, Col, Row} from "antd";
 
+
 const CateGoryListCompnent = ({ categoryData}) => {
     const [detailsData, setDetailsData] = useState();
 
     const handleDetails = (data) => {
-        console.log('data', data)
         setDetailsData(data);
     }
 
@@ -17,7 +17,7 @@ const CateGoryListCompnent = ({ categoryData}) => {
                         categoryData?.map(data =>
                             <div key={Math.random()}>
                                 {
-                                    data?.categoryListName &&
+                                    data?.category.length !==0 &&
                                     <div>
                                         <h3>{data?.categoryListName}</h3>
                                         <div className='category-card'>
@@ -48,11 +48,11 @@ const CateGoryListCompnent = ({ categoryData}) => {
 
                 </Col>
 
-                <Col md={12}>
+                <Col md={12} style={{width: '330px'}}>
                     {
                         detailsData ?
                             <a rel="noreferrer" href={detailsData?.value?.url} target='_blank'>
-                                <div className='category-card'>
+                                <div className='category-card' style={{width: '100%'}}>
                                     <h3>Title: {detailsData?.value?.catName}</h3>
                                     <h3>url: {detailsData?.value?.url}</h3>
                                     <h3>Category: {detailsData?.categoryListName}</h3>

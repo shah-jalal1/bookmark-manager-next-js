@@ -1,17 +1,25 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Button, Col, Form, Input, Modal, Row, Select} from "antd";
 import {PlusSquareOutlined} from "@ant-design/icons";
-import CateGoryListCompnent from "./common/CateGoryListCompnent";
+import dynamic from "next/dynamic";
+// used dynamic for avoid error
+const  CateGoryListCompnent = dynamic(() => import('./common/CateGoryListCompnent'), { ssr: false })
 
 const categoryList = [
     {
-        'categoryListName': 'category A',
+        'categoryListName': 'Category A',
         "category":
             [
             ]
     },
     {
-        'categoryListName': 'category B',
+        'categoryListName': 'Category B',
+        "category":
+            [
+            ]
+    },
+    {
+        'categoryListName': 'Category C',
         "category":
             [
             ]
@@ -49,14 +57,10 @@ const HomePage = () => {
     const onFinish = async values => {
         let _tempData;
         if (localStorage.getItem("bookmarks-data") === null) {
-            console.log('null');
             _tempData = categoryList;
         } else {
-            console.log('not null');
             _tempData = JSON.parse(localStorage.getItem(('bookmarks-data')))
         }
-        console.log('temp data ', _tempData)
-
 
         let _data;
         _data = _tempData?.map(catData => {
@@ -80,7 +84,7 @@ const HomePage = () => {
         <div style={{padding: '50px'}}>
             <div style={{display: 'flex', justifyContent: 'center'}}>
                 <h2 style={{marginRight: '20px'}}>Bookmark Manager</h2>
-                <Button type='primary' onClick={showModal}>Add Bookmark</Button>
+                <Button type='primary' danger onClick={showModal}>Add Bookmark</Button>
             </div>
             <div>
 
@@ -94,6 +98,7 @@ const HomePage = () => {
                             categoryData={
                                 JSON.parse(localStorage.getItem(('bookmarks-data')))
                             }
+
                         />
                         :
                         <><h1>No Data Found</h1></>
@@ -136,7 +141,13 @@ const HomePage = () => {
                         <Col md={24} xs={24}>
                             <Form.Item
                                 name="url"
-                                rules={[{required: true, message: 'Please input url'}]}
+                                rules={[
+                                    {required: true, message: 'Please input url'},
+                                    {
+                                        type: "url",
+                                        message: "This field must be a valid url."
+                                    }
+                                ]}
                             >
                                 <Input placeholder='Url'/>
                             </Form.Item>
@@ -149,7 +160,7 @@ const HomePage = () => {
                                     name="categoryListName"
                                     rules={[{required: true, message: 'Please input category'}]}
                                 >
-                                    <Select disabled={isAdd} style={{width: '420px', marginRight: '10px'}}
+                                    <Select placeholder='Category' disabled={isAdd} style={{width: '420px', marginRight: '10px'}}
                                     >
                                         {
                                             categoryList?.map(data =>
@@ -199,6 +210,7 @@ const HomePage = () => {
                                         type="primary"
                                         htmlType="submit"
                                         style={{width: "100%"}}
+                                        danger
                                     >
                                         Submit
                                     </Button>
