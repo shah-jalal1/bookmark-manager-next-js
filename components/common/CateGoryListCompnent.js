@@ -2,20 +2,7 @@ import React, {useState} from 'react';
 import {Button, Col, Row} from "antd";
 
 const CateGoryListCompnent = ({ categoryData}) => {
-// const CateGoryListCompnent = ({categoryList}) => {
-
-    // const [categoryData] = useState(typeof window !== 'undefined' &&
-    // localStorage.getItem("bookmarks-data") !== null ?
-    //     JSON.parse(localStorage.getItem(('bookmarks-data'))) :
-    //     categoryList);
-    // const categoryData = typeof window !== 'undefined' &&
-    // localStorage.getItem("bookmarks-data") !== null ?
-    //     JSON.parse(localStorage.getItem(('bookmarks-data'))) :
-    //     categoryList;
-
     const [detailsData, setDetailsData] = useState();
-
-    // console.log('cateogry list ', categoryList);
 
     const handleDetails = (data) => {
         console.log('data', data)
@@ -29,26 +16,32 @@ const CateGoryListCompnent = ({ categoryData}) => {
                     {
                         categoryData?.map(data =>
                             <div key={Math.random()}>
-                                <h3>{data?.categoryListName}</h3>
-                                <div className='category-card'>
+                                {
+                                    data?.categoryListName &&
+                                    <div>
+                                        <h3>{data?.categoryListName}</h3>
+                                        <div className='category-card'>
 
-                                    {
-                                        data?.category?.map(value =>
-                                            <div key={Math.random()} className='card-item'>
-                                                <div>
-                                                    <h3>{value?.catName}</h3>
-                                                </div>
-                                                <div>
-                                                    <Button onClick={() => handleDetails({
-                                                        value,
-                                                        categoryListName: data?.categoryListName
-                                                    })}>Details</Button>
-                                                </div>
-                                            </div>
-                                        )
-                                    }
+                                            {
+                                                data?.category?.map(value =>
+                                                    <div key={Math.random()} className='card-item'>
+                                                        <div>
+                                                            <h3>{value?.catName}</h3>
+                                                        </div>
+                                                        <div>
+                                                            <Button onClick={() => handleDetails({
+                                                                value,
+                                                                categoryListName: data?.categoryListName
+                                                            })}>Details</Button>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
 
-                                </div>
+                                        </div>
+                                    </div>
+                                }
+
                             </div>
                         )
                     }

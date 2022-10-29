@@ -8,28 +8,12 @@ const categoryList = [
         'categoryListName': 'category A',
         "category":
             [
-                {
-                    'catName': "javascript",
-                    "url": 'https://www.w3schools.com/',
-                },
-                {
-                    'catName': "angular",
-                    "url": 'https://www.w3schools.com/',
-                },
             ]
     },
     {
         'categoryListName': 'category B',
         "category":
             [
-                {
-                    'catName': "python",
-                    "url": 'https://www.w3schools.com/',
-                },
-                {
-                    'catName': "c++",
-                    "url": 'https://www.w3schools.com/',
-                },
             ]
     }
 ]
@@ -37,42 +21,12 @@ const categoryList = [
 
 const HomePage = () => {
 
-    // const [bookmarksData, setBookmarkDate] = useState(typeof window !== 'undefined' &&
-    // localStorage.getItem("bookmarks-data") !== null ?
-    //     JSON.parse(localStorage.getItem(('bookmarks-data'))) :
-    //     categoryList);
-    // let bookmarksData = categoryList;
-
-
-    const [isInitData, setIsInitData] = useState(true);
 
     const [isAdd, setIsAdd] = useState(false);
 
     const [form] = Form.useForm();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    // useEffect(() => {
-    //     if ( localStorage.getItem("bookmarks-data") !== null) {
-    //         const test =  JSON.parse(localStorage.getItem(('bookmarks-data')));
-    //         console.log('test', test)
-    //         // console.log('this is use effect', localStorage.getItem("bookmarks-data"));
-    //         // bookmarksData =  localStorage.getItem("bookmarks-data");
-    //     } else {
-    //         // console.log('this is not use effect')
-    //     }
-    // }, []);
-
-    // if (typeof window !== 'undefined') {
-    //     console.log('!!!!!!!!!!sbookmark data',  localStorage.getItem("bookmarks-data"))
-    // }
-    //
-    // console.log('####', bookmarksData)
-
-
-    const getAllBookmarks = () => {
-        setIsAdd(false);
-    }
 
     const addCategory = () => {
         setIsAdd(true);
@@ -91,7 +45,6 @@ const HomePage = () => {
         setIsModalOpen(false);
     };
 
-    // console.log('@@@bookmarkdat', bookmarksData)
 
     const onFinish = async values => {
         let _tempData;
@@ -100,19 +53,12 @@ const HomePage = () => {
             _tempData = categoryList;
         } else {
             console.log('not null');
-            // bookmarksData = JSON.parse(localStorage.getItem(('bookmarks-data')))
             _tempData = JSON.parse(localStorage.getItem(('bookmarks-data')))
         }
         console.log('temp data ', _tempData)
 
-        // localStorage.removeItem("bookmarks-data");
 
-        // bookmarksData = JSON.parse(localStorage.getItem(('bookmarks-data')))
-
-        //
         let _data;
-
-        // _data = bookmarksData?.map(catData => {
         _data = _tempData?.map(catData => {
             if (catData?.categoryListName === values?.categoryListName) {
                 catData?.category?.push(values);
@@ -120,31 +66,15 @@ const HomePage = () => {
             return catData;
         });
 
-        // setBookmarkDate(_data);
-
-        // console.log('bookmarks data.....', _data)
-
-        // JSON.parse(localStorage.getItem('bookmarks-data'));
-        //
         localStorage.setItem('bookmarks-data', JSON.stringify(_data));
-        //
-        //   form.resetFields();
-        //
+
+        form.resetFields();
+
         alert("Successfully added into favourite");
-        //
-        //   getAllBookmarks();
-        //
-        //   setIsModalOpen(false);
-        //   setIsInitData(false);
+
+        setIsModalOpen(false);
+        setIsAdd(false);
     }
-
-    // if (typeof window === 'undefined') {
-    //     console.log('////if')
-    //     return <></>;
-    // } else {
-    //     console.log('else....')
-    // }
-
 
     return (
         <div style={{padding: '50px'}}>
@@ -152,31 +82,21 @@ const HomePage = () => {
                 <h2 style={{marginRight: '20px'}}>Bookmark Manager</h2>
                 <Button type='primary' onClick={showModal}>Add Bookmark</Button>
             </div>
-
-            {/*    if (typeof window === 'undefined') {*/}
-            {/*    return <></>;*/}
-            {/*}*/}
-
             <div>
+
+
                 {
-                    typeof window !== 'undefined' ?
+
+                    typeof window !== 'undefined' &&
+                    localStorage.getItem("bookmarks-data") !== null ?
 
                         <CateGoryListCompnent
-                            // categoryList={categoryList}
-
                             categoryData={
-
-                                // typeof window !== 'undefined' &&
-                                // typeof window !== 'undefined' ?
-                                localStorage.getItem("bookmarks-data") !== null ?
-                                    JSON.parse(localStorage.getItem(('bookmarks-data'))) :
-                                    categoryList
-                                // :
-                                // <></>
+                                JSON.parse(localStorage.getItem(('bookmarks-data')))
                             }
                         />
                         :
-                        <></>
+                        <><h1>No Data Found</h1></>
                 }
 
             </div>
@@ -215,7 +135,6 @@ const HomePage = () => {
 
                         <Col md={24} xs={24}>
                             <Form.Item
-                                // label="Title"
                                 name="url"
                                 rules={[{required: true, message: 'Please input url'}]}
                             >
